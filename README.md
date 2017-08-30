@@ -5,7 +5,7 @@ In the python shell, import easy\_plot with the following code:
 
     import sys
     sys.path.append('the path of the dir containing the script')
-    from easy_plot import *
+    from polarization import *
 
 **polseg_convert()**
 
