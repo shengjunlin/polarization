@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# Written on 4/2017 by Sheng-Jun Lin
+# Modified on 4/2017 by Sheng-Jun Lin from Jia-Wei Wang's script
 import numpy as np
 import astropy.io.fits as pyfits
 from astropy.wcs import WCS
@@ -60,10 +60,10 @@ def polseg_convert(I_map, polI_map, polPA_map,
             polPA = polPA_data[0, 0, j, i] / 180. * np.pi
             if I > 0. and polI > 0. and not np.isnan(polPA) \
                     and i % sampling_interval == 0 and j % sampling_interval == 0:
-                # Calculate the length of segments:
-                # 0.5*scale_10percent*10/3600*polI/I*sin(PA) in deg
+                # Calculate an half of length of segments:
+                # 0.5 * (polI/I) * sin[or cos](PA) * (10*scale_10percent[arcs])/3600 in deg
                 dx_half = 0.5 / 360 * scale_10percent * \
-                    polI / I * np.sin(polPA) / np.cos(dec / 180. * np.pi)
+                    polI / I * np.sin(polPA) / np.cos(dec / 180. * np.pi) # dRA is corrected by cos(Dec)
                 dy_half = 0.5 / 360 * scale_10percent * \
                     polI / I * np.cos(polPA)
                 reg_file.write("line({0},{1},{2},{3}) # line=0 0\n".format(
