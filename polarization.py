@@ -60,13 +60,12 @@ def polseg_convert(I_map, polI_map, polPA_map,
             polPA = polPA_data[0, 0, j, i] / 180. * np.pi
             if I > 0. and polI > 0. and not np.isnan(polPA) \
                     and i % sampling_interval == 0 and j % sampling_interval == 0:
-                isNorth = 1 if dec >= 0. else -1
                 # Calculate the length of segments:
                 # 0.5*scale_10percent*10/3600*polI/I*sin(PA) in deg
                 dx_half = 0.5 / 360 * scale_10percent * \
                     polI / I * np.sin(polPA) / np.cos(dec / 180. * np.pi)
                 dy_half = 0.5 / 360 * scale_10percent * \
-                    polI / I * np.cos(polPA) * isNorth
+                    polI / I * np.cos(polPA)
                 reg_file.write("line({0},{1},{2},{3}) # line=0 0\n".format(
                     ra + dx_half, dec + dy_half, ra - dx_half, dec - dy_half))
 
