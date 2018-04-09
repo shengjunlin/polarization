@@ -10,7 +10,7 @@ def polseg_convert(I_map, polI_map, polPA_map,
                    scale_10percent, sampling_interval, seg_color, output_reg):
     """
     PolSeg_convert(I_map, polI_map, polPA_map,
-        scale_10percent, sampling_rate, seg_color, output_reg)
+        scale_10percent, sampling_interval, seg_color, output_reg)
     Generate a ds9 region file which contains polarization segments.
     Assume the fits files have 4 axes. (e.g. CASA simulation outputs)
     I_map             [str]: The fits filename of Stokes I.
