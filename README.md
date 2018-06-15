@@ -19,11 +19,11 @@ I_map             [str]: The fits filename of Stokes I.
 polI_map          [str]: The fits filename of Polarized intensity.    
 polPA_map         [str]: The fits filename of PA[deg] of polarization segments.    
 scale_10percent [float]: Length[arcsec] of 10% polarization segments.    
-sampling_interval [int]: (1/sampling rate of segments)[pixel]. Default: 3.
-I_clip          [float]: Exclude pixels in I_map with values <= I_clip. Default: 0.
-polI_clip       [float]: Exclude pixels in polI_map with values <= polI_clip. Default: 0.
-seg_color         [str]: Color of segments. Defualt: 'red'.
-output_reg        [str]: Output region filename. Default: 'output.reg'.
+sampling_interval [int]: (1/sampling rate of segments)[pixel]. Default: 3.    
+I_clip          [float]: Exclude pixels in I_map with values <= I_clip. Default: 0.    
+polI_clip       [float]: Exclude pixels in polI_map with values <= polI_clip. Default: 0.    
+seg_color         [str]: Color of segments. Defualt: 'red'.    
+output_reg        [str]: Output region filename. Default: 'output.reg'.    
 
 Generate a ds9 region file which contains polarization segments.
 
