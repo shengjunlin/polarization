@@ -6,8 +6,8 @@ from astropy.wcs import WCS
 import warnings
 
 
-def polseg_convert(I_map, polI_map, polPA_map,
-                   scale_10percent, sampling_interval, seg_color, output_reg):
+def polseg_convert(I_map, polI_map, polPA_map, scale_10percent, sampling_interval=3,
+                   I_clip=0., polI_clip=0., seg_color='r', output_reg='output.reg'):
     """
     polseg_convert(I_map, polI_map, polPA_map,
         scale_10percent, sampling_interval, seg_color, output_reg)
@@ -17,9 +17,11 @@ def polseg_convert(I_map, polI_map, polPA_map,
     polI_map          [str]: The fits filename of Polarized intensity.
     polPA_map         [str]: The fits filename of PA[deg] of polarization segments.
     scale_10percent [float]: Length[arcsec] of 10% polarization segments.
-    sampling_interval [int]: (1/sampling rate of segments)[pixel].
-    seg_color         [str]: Color of segments.
-    output_reg        [str]: Output region filename.
+    sampling_interval [int]: (1/sampling rate of segments)[pixel]. Default: 3.
+    I_clip          [float]: Exclude pixels in I_map with values <= I_clip. Default: 0.
+    polI_clip       [float]: Exclude pixels in polI_map with values <= polI_clip. Default: 0.
+    seg_color         [str]: Color of segments. Defualt: 'red'.
+    output_reg        [str]: Output region filename. Default: 'output.reg'.
     """
     # Open each fits flie
     I_hdulist = pyfits.open(I_map)
@@ -52,14 +54,15 @@ def polseg_convert(I_map, polI_map, polPA_map,
     wcs = WCS(polI_hd)
     for j in xrange(Ny):
         for i in xrange(Nx):
-            # Get the RA and Dec in deg for each pixel
-            ra = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[0]
-            dec = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[1]
+            # Get the I, polI and polPA for each pixel
             I = I_data[0, 0, j, i]
             polI = polI_data[0, 0, j, i]
             polPA = polPA_data[0, 0, j, i] / 180. * np.pi
-            if I > 0. and polI > 0. and not np.isnan(polPA) \
+            if I > I_clip and polI > polI_clip and not np.isnan(polPA) \
                     and i % sampling_interval == 0 and j % sampling_interval == 0:
+                # Get the RA and Dec in deg for each pixel
+                ra = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[0]
+                dec = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[1]
                 # Calculate an half of length of segments:
                 # 0.5 * (polI/I) * sin[or cos](PA) * (10*scale_10percent[arcs])/3600 in deg
                 dx_half = 0.5 / 360 * scale_10percent * \
