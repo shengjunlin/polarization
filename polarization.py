@@ -63,22 +63,23 @@ def polseg_convert(I_map, polI_map, polPA_map, scale_10percent, sampling_interva
             # Get the I, polI and polPA for each pixel
             I = I_data[0, 0, j, i]
             polI = polI_data[0, 0, j, i]
-            polPA = polPA_data[0, 0, j, i] / 180. * np.pi
-            if I > I_clip and polI > polI_clip and not np.isnan(polPA) \
+            polPA_rad = polPA_data[0, 0, j, i] / 180. * np.pi
+            if I > I_clip and polI > polI_clip and not np.isnan(polPA_rad) \
                     and i % sampling_interval == 0 and j % sampling_interval == 0:
                 # Get the RA and Dec in deg for each pixel
-                ra = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[0]
-                dec = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[1]
+                ra_deg = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[0]
+                dec_deg = wcs.all_pix2world(nx[j, i], ny[j, i], 0, 0, 0)[1]
                 # Calculate an half of length of segments:
                 polper = polI/I
                 polper_ls.append(polper)
-                # 0.5 * (polI/I) * sin[or cos](PA) * (10*scale_10percent[arcs])/3600 in deg
-                dx_half = 0.5 / 360 * scale_10percent * \
-                    polper * np.sin(polPA) / np.cos(dec / 180. * np.pi) # dRA is corrected by cos(Dec)
-                dy_half = 0.5 / 360 * scale_10percent * \
-                    polper * np.cos(polPA)
+                # 0.5 * (polI/I) * sin[or cos](PA) * (10*scale_10percent[arcs])/3600 is in deg
+                # dRA is corrected by cos(Dec)
+                dx_half_deg = 0.5 * polper * np.sin(polPA_rad) / np.cos(dec_deg / 180. * np.pi) \
+                    * scale_10percent / 360.
+                dy_half_deg = 0.5 * polper * np.cos(polPA_rad) \
+                    * scale_10percent / 360.
                 reg_file.write("line({0},{1},{2},{3}) # line=0 0\n".format(
-                    ra + dx_half, dec + dy_half, ra - dx_half, dec - dy_half))
+                    ra_deg + dx_half_deg, dec_deg + dy_half_deg, ra_deg - dx_half_deg, dec_deg - dy_half_deg))
 
     reg_file.close()
 
