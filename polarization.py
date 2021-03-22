@@ -51,13 +51,15 @@ def polseg_convert(I_map, polI_map, polPA_map='',
     # Open each fits flie
     I_hdulist = pyfits.open(I_map)
     polI_hdulist = pyfits.open(polI_map)
-    polPA_hdulist = pyfits.open(polPA_map)
+    if np.isnan(uniform_PA):
+        polPA_hdulist = pyfits.open(polPA_map)
 
     # Get the cube and header from HDU lists
     I_data = I_hdulist[i_hdu].data
     polI_data = polI_hdulist[i_hdu].data
     polI_hd = polI_hdulist[i_hdu].header
-    polPA_data = polPA_hdulist[i_hdu].data
+    if np.isnan(uniform_PA):
+        polPA_data = polPA_hdulist[i_hdu].data
 
     try:
         # CASA simulation outputs have 4 dimension: (Stokes, freq, y, x)
@@ -68,14 +70,16 @@ def polseg_convert(I_map, polI_map, polPA_map='',
                 NS, Nf), RuntimeWarning)
         I_data = np.squeeze(I_data[0, i_chan, :, :])
         polI_data = np.squeeze(polI_data[0, i_chan, :, :])
-        polPA_data = np.squeeze(polPA_data[0, i_chan, :, :])
+        if np.isnan(uniform_PA):
+            polPA_data = np.squeeze(polPA_data[0, i_chan, :, :])
     except:
         try:
             # 3-dim fits
             Nf, Ny, Nx = polI_data.shape
             I_data = np.squeeze(I_data[i_chan, :, :])
             polI_data = np.squeeze(polI_data[i_chan, :, :])
-            polPA_data = np.squeeze(polPA_data[i_chan, :, :])
+            if np.isnan(uniform_PA):
+                polPA_data = np.squeeze(polPA_data[i_chan, :, :])
         except:
             # 2-dim fits
             Ny, Nx = polI_data.shape
