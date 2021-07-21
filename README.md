@@ -1,5 +1,6 @@
 # polarization
-A Python function related to polarization.
+Plot polarization segments
+---------------------------------------------
 
 Description : First modify Jia-Wei Wang's script that reading
 I, Q, U images to generate a ds9 region file of polarization
@@ -19,6 +20,7 @@ In the python shell, import polarization with the following code:
 
 
 Functions
+---------------------------------------------
 
 def write_regfilehd(reg_file, seg_color='black', seg_width=1):  
 
