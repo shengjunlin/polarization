@@ -46,7 +46,7 @@ def write_regfilehd(reg_file, seg_color='black', seg_width=1):
 def polseg_to_regfile(reg_file, RA, Dec, RADec_unit='deg', p=None, ten_percent_scale_asec=None, uniform_scale_asec=None, PA_deg=None, uniform_PA_deg=None, PA_offset=0.):  
 
     """Write polarisation segments into the ds9 region file object.
-    This is modified by Jia-Wei Wang's script.
+    This is modified from Jia-Wei Wang's script.
 
     Parameters
     ----------
@@ -82,7 +82,7 @@ def polseg_to_regfile(reg_file, RA, Dec, RADec_unit='deg', p=None, ten_percent_s
 
 def polseg_from_POL2_cat(reg_filename, POL2_cat_filename='', data=None, mask=None, ten_percent_scale_asec=None, uniform_scale_asec=None, uniform_PA_deg=None, PA_offset=90., seg_color='black', seg_width=1):  
 
-    """Convert a POL2 catlogue into a segment ds9 region file with the given mask.
+    """Convert a POL2 catlogue into a ds9 region file with the given mask.
     The endpoints of segments are calculated with the small-angle approximation.
     To obtain the B-field segments, the default of "PA_offset" sets to 90 degree.
 
@@ -121,7 +121,7 @@ def polseg_from_POL2_cat(reg_filename, POL2_cat_filename='', data=None, mask=Non
 
 def polseg_from_2darray(reg_filename, header, I_data, PI_data, PA_data_deg=None, sampling_interval_px=3, ten_percent_scale_asec=None, uniform_scale_asec=None, uniform_PA_deg=None, PA_offset=0., I_clip=0., PI_clip=0., mask_func=None, seg_color='black', seg_width=1):  
 
-    """Convert the given I/PI/PA arrays into a segment ds9 region file with the given mask_func.
+    """Convert the given I/PI/PA arrays into a ds9 region file with the given mask_func.
     The endpoints of segments are calculated with the small-angle approximation.
 
     Parameters
