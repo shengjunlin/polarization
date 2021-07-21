@@ -18,6 +18,8 @@ In the python shell, import polarization with the following code:
     from polarization import *
 
 
+Functions
+
 def write_regfilehd(reg_file, seg_color='black', seg_width=1):  
 
     """Write the standard header of the ds9 region file object.
