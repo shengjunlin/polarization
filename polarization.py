@@ -162,7 +162,7 @@ def polseg_from_POL2_cat(reg_filename, POL2_cat_filename='', data=None, mask=Non
     # Note: Not sure what is the advantage to use Table?
 
     if data is None:
-        data = fits.open(POL2cat_filename, memmap=True)[1].data
+        data = fits.open(POL2_cat_filename, memmap=True)[1].data
 
     if mask is None:
         table = data
