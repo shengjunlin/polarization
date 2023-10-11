@@ -49,7 +49,7 @@ def write_regfilehd(reg_file, seg_color='black', seg_width=1, frame='fk5'):
         Segment color. (Default value = 'black')
     seg_width : int
         Segment width. (Default value = 1)
-    frame : {'fk5', 'icrs', 'fk4'}
+    frame : {'fk5', 'icrs', 'fk4', 'galactic'}
         Please choose 'icrs' but not 'fk5' for ALMA data.
         (Default value = 'fk5')
 
@@ -456,6 +456,8 @@ def polseg_from_images(reg_filename,
         ndim = len(I_data.shape)
     else:  # PA map must be given
         hd = PA_hdulist[i_hdu].header
+        I_data = None
+        PI_data = None
         ndim = len(PA_data_deg.shape)
 
     if ndim == 4:
@@ -517,7 +519,7 @@ def polseg_from_images(reg_filename,
     if uniform_PA_deg is None:
         PA_hdulist.close()
 
-    if hist_plot:
+    if hist_plot and (uniform_scale_asec is None):
         from matplotlib.pyplot import hist, xlabel, ylabel, show
         hist(ls_p)
         xlabel('polarized fraction')
